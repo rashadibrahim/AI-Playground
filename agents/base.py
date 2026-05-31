@@ -8,7 +8,7 @@ class BaseAgent(ABC):
     """
     def __init__(self, 
                  llm_client,
-                 short_term_memory,
+                 short_term_memory=None,
                  rag_pipeline=None, 
                  tools=None):
         self.llm = llm_client

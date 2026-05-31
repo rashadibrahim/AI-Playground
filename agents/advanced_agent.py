@@ -90,8 +90,6 @@ Instructions:
         }
         result = self.graph.invoke(messages, config=config)
         answer = result["messages"][-1].content if result["messages"] else "No response"
-        self.short_term_memory.add_message("user", user_query)
-        self.short_term_memory.add_message("assistant", answer)
         return {
             "answer": answer,
             "agent_type": "advanced",

@@ -8,9 +8,10 @@ class AgentRouter:
     def __init__(self, llm_client, short_term_memory, rag_pipeline=None, agent=None, tools=[]):
         self.llm = llm_client
         self.agent = agent
+        self.short_term_memory = short_term_memory
         
         self.agents = {
-            "simple": SimpleAgent(llm_client, short_term_memory=short_term_memory),
+            "simple": SimpleAgent(llm_client),
             "rag_memory": RAGMemoryAgent(llm_client, short_term_memory=short_term_memory, rag_pipeline=rag_pipeline),
             "advanced": AdvancedAgent(llm_client, short_term_memory=short_term_memory, tools=tools)
         }

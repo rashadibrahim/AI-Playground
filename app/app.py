@@ -1,3 +1,4 @@
+from urllib import response
 from agents.router import AgentRouter
 from security.core import SecurityLayer
 from services.semantic_cache.service import SemanticCache
@@ -8,10 +9,8 @@ class App:
     def __init__(
         self,
         router: AgentRouter,
-        session_id: str,
     ):
         self.router = router
-        self.session_id = session_id
         self.security_layer = SecurityLayer()
         self.semantic_cache = SemanticCache(db_dir="./databases/responses_cache_db", enable_ttl=True)
 
@@ -42,7 +41,9 @@ class App:
             args=(user_query, clean_output),
             daemon=True
             ).start()
-            
+            self.router.short_term_memory.add_message("user", user_query)
+            self.router.short_term_memory.add_message("assistant", clean_output)
+
             return clean_output
         
         else:

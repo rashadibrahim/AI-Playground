@@ -35,9 +35,6 @@ class RAGMemoryAgent(BaseAgent):
         Answer:"""
 
         response = self.llm.invoke(prompt)
-        
-        self.short_term_memory.add_message("user", user_query)
-        self.short_term_memory.add_message("assistant", response.content)
 
         return {
             "answer": response.content,

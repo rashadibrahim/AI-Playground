@@ -80,5 +80,5 @@ class AppBuilder:
           tools=self._tools,
       )
 
-      app = App(router=router, session_id=stm.session_id)
+      app = App(router=router)
       return app
