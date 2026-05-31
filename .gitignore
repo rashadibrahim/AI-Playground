@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Databases and persistent stores (keep them out of git)
+
+Playground/databases/
+**/*.db
+**/*.sqlite3
+**/*.sqlite
+
+# Data folders (local ingested files) 
+Playground/documents/
+Playground/data/
+data/
+
+# Environment variable files / secrets
+.env
+*.env
+.env.*
+secrets.json
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python tooling
+.mypy_cache/
+.pytest_cache/
+.coverage
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+
+# Keep diagram images if you want to store them in the repo
+!Playground/docs/images/
+
+# End of .gitignore
