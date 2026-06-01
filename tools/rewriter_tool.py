@@ -1,6 +1,7 @@
 from services.query_rewriter.service import rewriter
 from langchain.tools import tool
 from services.semantic_cache.service import SemanticCache
+import threading
 
 semantic_cache = SemanticCache(db_dir="./databases/rewriter_cache")
 
@@ -20,6 +21,10 @@ def query_rewriter_tool(query: str, strategy: str) -> str:
       return result["response"]
   else:
       rewritten = rewriter.rewrite(query, strategy=strategy)
-      semantic_cache.add_to_cache(query, rewritten["rewritten"], metadata={"strategy": strategy})
+      threading.Thread(
+        target=semantic_cache.add_to_cache,
+        args=(query, rewritten["rewritten"], {"strategy": strategy}),
+        daemon=True
+      ).start()
       return rewritten["rewritten"]
 

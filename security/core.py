@@ -13,7 +13,6 @@ class SecurityLayer:
         self.output_guard = OutputGuard()
 
     def process(self, user_input: str) -> Tuple[bool, str, Dict]:
-        """Fast parallel input validation"""
         report: Dict[str, Any] = {"stage": "start", "checks": {}}
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
@@ -36,18 +35,21 @@ class SecurityLayer:
         return True, "Input approved for processing.", report
 
     def validate_output(self, llm_response: str, original_input: str) -> Tuple[bool, str, Dict]:
-        """Local content + output validation"""
         report = {}
         
-        content_result = self.content_guard.analyze(llm_response, original_input)
-        output_result = self.output_guard.sanitize(llm_response)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+            content_future = executor.submit(
+                self.content_guard.analyze, llm_response, original_input
+            )
+            output_future = executor.submit(
+                self.output_guard.sanitize, llm_response
+            )
         
-        report["content"] = content_result
-        report["output"] = output_result
+            content_result = content_future.result()
+            output_result = output_future.result()
         
         final_safe = content_result["safe"] and output_result["safe"]
         clean_text = output_result["sanitized_text"]
-        
         
         
         return final_safe, clean_text, report
